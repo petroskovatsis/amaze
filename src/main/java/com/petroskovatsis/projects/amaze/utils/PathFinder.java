@@ -4,6 +4,7 @@ import com.petroskovatsis.projects.amaze.core.MazePoint;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class PathFinder {
@@ -21,7 +22,7 @@ public class PathFinder {
     }
 
     public void findPath(MazePoint goalPoint, List<MazePoint> path) throws Exception {
-        MazePoint point = goalPoint;
+        MazePoint point = Objects.requireNonNull(goalPoint, "The goal point must be set.");
         while (point != null) {
             path.add(point);
             point = point.getPrevious();

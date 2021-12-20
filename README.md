@@ -1,5 +1,10 @@
 # Amaze
 
+### Test
+```
+mvn test
+```
+
 ### Build
 
 * Build with maven

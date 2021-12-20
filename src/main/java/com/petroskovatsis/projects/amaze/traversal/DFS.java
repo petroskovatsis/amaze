@@ -56,4 +56,9 @@ public class DFS implements TraversalAlgorithm {
             }
         }
     }
+
+    @Override
+    public List<MazePoint> getPath() {
+        return path;
+    }
 }

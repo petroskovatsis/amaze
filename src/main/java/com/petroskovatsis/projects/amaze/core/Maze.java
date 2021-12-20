@@ -16,7 +16,7 @@ public class Maze {
     private MazePoint goalPoint;
 
     public Maze(List<String> lines) throws Exception {
-        validate(lines);
+        validate(Objects.requireNonNull(lines, "The lines must be set."));
         mazePoints = new MazePoint[lines.size()][lines.get(0).toCharArray().length];
         build(lines);
     }
@@ -34,7 +34,7 @@ public class Maze {
         int len = lines.get(0).toCharArray().length;
         for (int i = 1; i < lines.size(); i++) {
             if (lines.get(i).toCharArray().length != len) {
-                throw new Exception("Please provide a valid 2D array");
+                throw new Exception("Please provide a valid 2D array.");
             }
         }
     }

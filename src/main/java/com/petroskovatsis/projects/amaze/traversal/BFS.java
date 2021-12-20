@@ -63,4 +63,9 @@ public class BFS implements TraversalAlgorithm {
         PathFinder.getInstance().findPath(maze.getGoalPoint(), path);
         return true;
     }
+
+    @Override
+    public List<MazePoint> getPath() {
+        return path;
+    }
 }

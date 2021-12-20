@@ -9,6 +9,8 @@ import java.time.Instant;
 public class ExecutionTimer {
     private final Logger logger = LoggerFactory.getLogger(ExecutionTimer.class);
 
+    private long timeElapsed;
+
     public interface ExecMethod<T> {
         T exec() throws Exception;
     }
@@ -17,7 +19,12 @@ public class ExecutionTimer {
         Instant start = Instant.now();
         T o = method.exec();
         Instant end = Instant.now();
-        logger.info("Execution time: {} ms", Duration.between(start, end).toNanos());
+        timeElapsed = Duration.between(start, end).toMillis();
+        logger.info("Execution time: {} ms", timeElapsed);
         return o;
+    }
+
+    public long getTimeElapsed() {
+        return timeElapsed;
     }
 }
