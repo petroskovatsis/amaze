@@ -1,11 +1,15 @@
 package com.petroskovatsis.projects.amaze.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Maze {
+    private final Logger logger = LoggerFactory.getLogger(Maze.class);
 
     private MazePoint[][] mazePoints;
     private MazePoint startPoint;
@@ -19,7 +23,7 @@ public class Maze {
 
     public void print() {
         for (int i = 0; i < mazePoints.length; i++) {
-            System.out.println(Stream.of(mazePoints[i])
+            logger.info(Stream.of(mazePoints[i])
                     .map(MazePoint::getMazePointType)
                     .map(MazePointType::getSymbol)
                     .collect(Collectors.joining()));

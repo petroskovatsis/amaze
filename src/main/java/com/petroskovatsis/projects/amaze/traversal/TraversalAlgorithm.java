@@ -6,7 +6,7 @@ public interface TraversalAlgorithm {
 
     String getName();
 
-    void traverse(Maze maze) throws Exception;
+    boolean traverse(Maze maze) throws Exception;
 
     void printResults();
 }

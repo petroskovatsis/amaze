@@ -4,6 +4,8 @@ import com.petroskovatsis.projects.amaze.core.Maze;
 import com.petroskovatsis.projects.amaze.core.MazePoint;
 import com.petroskovatsis.projects.amaze.core.MazePointType;
 import com.petroskovatsis.projects.amaze.utils.PathFinder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DFS implements TraversalAlgorithm {
+    private final Logger logger = LoggerFactory.getLogger(DFS.class);
 
     private List<MazePoint> path = new ArrayList<>();
 
@@ -24,17 +27,15 @@ public class DFS implements TraversalAlgorithm {
         String result = path.stream()
                 .map(p -> String.format("(%s:%s (%s))", p.getRow(), p.getCol(), p.getMazePointType().getSymbol()))
                 .collect(Collectors.joining(", "));
-        System.out.println(result);
+        logger.info("Path result from BFS: {}", result);
     }
 
     @Override
-    public void traverse(Maze maze) throws Exception {
-        long startMillis = System.currentTimeMillis();
+    public boolean traverse(Maze maze) throws Exception {
         MazePoint[][] visited = new MazePoint[maze.getMazePoints().length][maze.getMazePoints()[0].length];
         traverse(maze.getStartPoint(), visited);
         PathFinder.getInstance().findPath(maze.getGoalPoint(), path);
-        long endMillis = System.currentTimeMillis();
-        System.out.println(String.format("Took %d millis.", endMillis - startMillis));
+        return true;
     }
 
     private void traverse(MazePoint mp, MazePoint[][] visited) {
@@ -47,11 +48,11 @@ public class DFS implements TraversalAlgorithm {
         for (int i = 0; i < mp.getNeighbors().size(); i++) {
             MazePoint neighbor = mp.getNeighbors().get(i);
             if (Objects.isNull(visited[neighbor.getRow()][neighbor.getCol()])) {
-                traverse(neighbor, visited);
                 neighbor.setPrevious(mp);
                 if (neighbor.getMazePointType() == MazePointType.GOAL) {
                     break;
                 }
+                traverse(neighbor, visited);
             }
         }
     }

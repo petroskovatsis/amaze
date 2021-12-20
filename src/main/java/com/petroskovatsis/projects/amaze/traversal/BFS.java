@@ -4,6 +4,8 @@ import com.petroskovatsis.projects.amaze.core.Maze;
 import com.petroskovatsis.projects.amaze.core.MazePoint;
 import com.petroskovatsis.projects.amaze.core.MazePointType;
 import com.petroskovatsis.projects.amaze.utils.PathFinder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 public class BFS implements TraversalAlgorithm {
+    private final Logger logger = LoggerFactory.getLogger(BFS.class);
 
     private Queue<MazePoint> queue = new ArrayDeque<>();
     private List<MazePoint> path = new ArrayList<>();
@@ -27,12 +30,11 @@ public class BFS implements TraversalAlgorithm {
         String result = path.stream()
                 .map(p -> String.format("(%s:%s (%s))", p.getRow(), p.getCol(), p.getMazePointType().getSymbol()))
                 .collect(Collectors.joining(", "));
-        System.out.println(result);
+        logger.info("Path result from BFS: {}", result);
     }
 
     @Override
-    public void traverse(Maze maze) throws Exception {
-        long startMillis = System.currentTimeMillis();
+    public boolean traverse(Maze maze) throws Exception {
         MazePoint[][] visited = new MazePoint[maze.getMazePoints().length][maze.getMazePoints()[0].length];
         visited[maze.getStartPoint().getRow()][maze.getStartPoint().getCol()] = maze.getStartPoint();
         queue.add(maze.getStartPoint());
@@ -59,7 +61,6 @@ public class BFS implements TraversalAlgorithm {
         }
 
         PathFinder.getInstance().findPath(maze.getGoalPoint(), path);
-        long endMillis = System.currentTimeMillis();
-        System.out.println(String.format("Took %d millis.", endMillis - startMillis));
+        return true;
     }
 }
